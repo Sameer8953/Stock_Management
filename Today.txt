@@ -1,0 +1,60 @@
+/*
+Today  I Discuss to DTOs Concept..
+Response Vs Request..
+Request to design:
+
+        Response 
+        {
+            username: "testdem", 
+            --------------------------> DTO ---> { username : test }
+            password : "ABC#321"                     
+       
+        }
+
+        Request
+
+            [Required]
+            public Password {get; set;}
+
+DTOs : ModelClass -> DTOsClass(Propertities are same in modelClass) -> MappersClass -> then Controllers....
+POST (Create Functions):
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateStockRequestDto stockDto)
+        {
+            var stockModel = stockDto.ToStockFromCreateDTo();
+            _context.Stocks.Add(stockModel);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetById), new {id = stockModel.Id},stockModel.ToStockDto());
+        }
+
+ PUT : (UPDATE Functions) :
+
+         [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto) 
+        {
+            var stockModel = _context.Stocks.FirstOrDefault(x=>x.Id == id);
+            if(stockModel == null)
+            {
+                return NotFound();
+            }
+
+            stockModel.Symbol = updateDto.Symbol;
+            stockModel.CompanyName = updateDto.CompanyName;
+            stockModel.Purchase = updateDto.Purchase;
+            stockModel.LastDiv = updateDto.LastDiv;
+            stockModel.Industry = updateDto.Industry;
+            stockModel.MarketCap = updateDto.MarketCap;
+
+            _context.SaveChanges();
+            return Ok(stockModel.ToStockDto());
+
+        }
+DELETE(Delete Functions) :
+   
+
+
+                   
+
+*/
