@@ -33,11 +33,12 @@ namespace API.Controller
         {
             //var stocks = await _context.Stocks.ToListAsync(); 
             var stocks = await _stockRepo.GetAllAsync();
-            var stockDto = stocks .Select(s=>s.ToStockDto());
+            var stockDto = stocks.Select(s=>s.ToStockDto());
             return Ok(stocks);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var stock = await _stockRepo.GetByIdAsync(id);
