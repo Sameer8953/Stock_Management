@@ -1,4 +1,6 @@
 using api.Data;
+using API.Interfaces;
+using API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
@@ -13,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+//Add Repository DI  Services....
+builder.Services.AddTransient<IStockRepository,StockRepository>();
 
 var app = builder.Build();
 
