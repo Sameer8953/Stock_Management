@@ -316,6 +316,17 @@ Veridation DataAnnotations.....
         [MinLength(5, ErrorMessage = "Title must be 5 Characters")]
         [MaxLength(280, ErrorMessage = "Title cannot be over 280 Characters")]
 
+Filtering to StockController GetAllAsync Implementation.
+Sorting Implementation ...
+
+        var stocks = _context.Stocks.AsQueryable();
+
+        stocks.OrderByDescending(c => c.CompanyName);
+
+        stocks.OrderBy(x => x.CompanyName);
+
+        stock.ToList();
+
 
                    
 

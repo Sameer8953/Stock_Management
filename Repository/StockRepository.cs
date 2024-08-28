@@ -38,6 +38,14 @@ namespace API.Repository
                 stocks = stocks.Where(x =>x.Symbol.Contains(query.Symbol));
            }
 
+            if(!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Symbol",StringComparison.OrdinalIgnoreCase))
+                {
+                    stocks = query.IsDecsending ? stocks.OrderByDescending(s => s.Symbol): stocks.OrderBy(s => s.Symbol);
+                }
+            }
+           
            return await stocks.ToListAsync();
         }
 
@@ -93,5 +101,7 @@ namespace API.Repository
         {
             return _context.Stocks.AnyAsync(s => s.Id == id);
         }
+
+       
     }
 }
