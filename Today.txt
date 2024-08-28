@@ -309,9 +309,12 @@ ONE TO MANY CREATION COMMENT MODEL  Concept :
 
             return Ok(commentModel);
         }
-    
     }
 
+Veridation DataAnnotations.....
+        [Required]
+        [MinLength(5, ErrorMessage = "Title must be 5 Characters")]
+        [MaxLength(280, ErrorMessage = "Title cannot be over 280 Characters")]
 
 
                    
