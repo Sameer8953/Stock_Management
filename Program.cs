@@ -58,6 +58,7 @@ builder.Services.AddAuthentication(options => {
 //Add Repository DI  Services....
 builder.Services.AddTransient<IStockRepository,StockRepository>();
 builder.Services.AddScoped<ICommentRepository,CommentRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
