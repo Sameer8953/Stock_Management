@@ -4,12 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using API.Models;
 
 
 
 
 namespace api.Models
 {
+    [Table("Stock")]
     public class Stock
     {
         public int Id { get; set; }
@@ -22,6 +24,8 @@ namespace api.Models
         public string Industry { get; set; } =string.Empty;
         public long MarketCap { get; set; }
         public List<Comment> Comments { get; set; }  = new List<Comment> ();
+
+        public List<Protfolio> Protfolios {get; set;} = new List<Protfolio>();
 
 
 

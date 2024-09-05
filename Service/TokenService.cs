@@ -34,14 +34,13 @@ namespace API.Repository
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds,
                 Issuer = _config["JWT:Issuer"],
                 Audience = _config["JWT:Audience"]   
             };
 
-            var tokenHandler = new  JwtSecurityTokenHandler();
+            var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescription);
 

@@ -12,8 +12,8 @@ using api.Data;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240831063150_SeedRole")]
-    partial class SeedRole
+    [Migration("20240905184818_ProfolioManyTOMany")]
+    partial class ProfolioManyTOMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,9 +49,6 @@ namespace API.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -93,6 +90,21 @@ namespace API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("API.Models.Protfolio", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUserId", "StockId");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("Portfolio");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -122,13 +134,13 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d3595b27-86ac-459a-892e-c1f25126304c",
+                            Id = "f72c9089-862c-4bf1-8d3f-ca67a4543377",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2bcc90c7-c360-4db6-a79f-bcc8bcaac835",
+                            Id = "8075bcb8-9103-48d7-96d7-891da3abf882",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -299,7 +311,26 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stocks");
+                    b.ToTable("Stock");
+                });
+
+            modelBuilder.Entity("API.Models.Protfolio", b =>
+                {
+                    b.HasOne("API.Models.AppUser", "AppUser")
+                        .WithMany("Protfolios")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.Stock", "Stock")
+                        .WithMany("Protfolios")
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -362,9 +393,16 @@ namespace API.Migrations
                     b.Navigation("Stock");
                 });
 
+            modelBuilder.Entity("API.Models.AppUser", b =>
+                {
+                    b.Navigation("Protfolios");
+                });
+
             modelBuilder.Entity("api.Models.Stock", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Protfolios");
                 });
 #pragma warning restore 612, 618
         }
