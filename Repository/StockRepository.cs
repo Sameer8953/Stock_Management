@@ -30,8 +30,10 @@ namespace API.Repository
 
            if (!string.IsNullOrWhiteSpace(query.CompanyName))
            {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 stocks = stocks.Where(s => s.CompanyName.Contains(query.CompanyName));
-           }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            }
 
            if (!string.IsNullOrWhiteSpace(query.Symbol))
            {
@@ -104,6 +106,9 @@ namespace API.Repository
             return _context.Stocks.AnyAsync(s => s.Id == id);
         }
 
-       
+        public async Task<Stock?> GetBySymbolAsync(string symbol)
+        {
+            return await _context.Stocks.FirstOrDefaultAsync(s => s.Symbol == symbol);
+        }
     }
 }

@@ -8,6 +8,7 @@ using API.DTOs.Stock;
 using API.Helpers;
 using API.Interfaces;
 using API.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,8 @@ using Microsoft.Extensions.Logging;
 namespace API.Controller
 {
     [Route("api/stock")]
-    [ApiController]
+    
+  
     public class StockController : ControllerBase
     {
         private readonly ILogger<StockController> _logger;
@@ -30,6 +32,7 @@ namespace API.Controller
         }
 
         [HttpGet]
+       
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid)
